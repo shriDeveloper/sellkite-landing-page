@@ -206,7 +206,7 @@ var theme = {
    */
   spyScroll: () => {
     let section = document.querySelectorAll('section[id]');
-    let navLinks = document.querySelectorAll('.scroll');
+    let navLinks = document.querySelectorAll('.nav-link.scroll');
     window.onscroll = () => {
       section.forEach(sec => {
         let top = window.scrollY; //returns the number of pixels that the document is currently scrolled vertically.
@@ -216,7 +216,7 @@ var theme = {
         if (top >= offset && top < offset + height) {
           navLinks.forEach(links => {
             links.classList.remove('active');
-            document.querySelector(`a.scroll[href*=${id}]`).classList.add('active');
+            document.querySelector(`.nav-link.scroll[href*=${id}]`).classList.add('active');
             //[att*=val] Represents an element with the att attribute whose value contains at least one instance of the substring "val". If "val" is the empty string then the selector does not represent anything.
           });
         }
@@ -392,6 +392,9 @@ var theme = {
       var sliderAutoPlay = slider1.getAttribute('data-autoplay') !== 'false';
       var sliderAutoPlayTime = slider1.getAttribute('data-autoplaytime') ? slider1.getAttribute('data-autoplaytime') : 5000;
       var sliderAutoHeight = slider1.getAttribute('data-autoheight') === 'true';
+      var sliderResizeUpdate = slider1.getAttribute('data-resizeupdate') !== 'false';
+      var sliderAllowTouchMove = slider1.getAttribute('data-drag') !== 'false';
+      var sliderReverseDirection = slider1.getAttribute('data-reverse') === 'true';
       var sliderMargin = slider1.getAttribute('data-margin') ? slider1.getAttribute('data-margin') : 30;
       var sliderLoop = slider1.getAttribute('data-loop') === 'true';
       var sliderCentered = slider1.getAttribute('data-centered') === 'true';
@@ -437,8 +440,11 @@ var theme = {
         },
         autoplay: {
           delay: sliderAutoPlayTime,
-          disableOnInteraction: false
+          disableOnInteraction: false,
+          reverseDirection: sliderReverseDirection,
+          pauseOnMouseEnter: false
         },
+        allowTouchMove: sliderAllowTouchMove,
         speed: parseInt(sliderSpeed),
         slidesPerView: slidesPerViewInit,
         loop: sliderLoop,
@@ -448,6 +454,7 @@ var theme = {
         autoHeight: sliderAutoHeight,
         grabCursor: true,
         resizeObserver: false,
+        updateOnWindowResize: sliderResizeUpdate,
         breakpoints: breakpointsInit,
         pagination: {
           el: carousel[i].querySelector('.swiper-pagination'),
